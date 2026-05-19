@@ -44,7 +44,7 @@ Credenciais padrão:
 Exemplo com binário Zig:
 
 ```bash
-./zig-out/bin/outboxx --config dev/config.toml
+zig build run -- --config dev/config.toml
 ```
 
 ## 5) Ver eventos no NATS
