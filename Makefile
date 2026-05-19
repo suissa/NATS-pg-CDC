@@ -2,8 +2,14 @@
 
 # Use direnv to auto-load Nix environment for local development
 # This allows commands to work without 'nix develop' wrapper
+SHELL := /bin/bash
+.SHELLFLAGS := -eu -o pipefail -c
+
+# Load direnv/Nix wrapper when available (keeps local DX, but does not break make in CI/odd cwd states)
+ifneq (,$(wildcard $(CURDIR)/.make-shell))
 SHELL := $(CURDIR)/.make-shell
 .SHELLFLAGS :=
+endif
 
 # Helper function for running commands with spinner
 # Captures both stdout and stderr, shows full output on failure
@@ -35,7 +41,7 @@ help:
 	@echo "  make run           - Run the application"
 	@echo "  make test-unit     - Run unit tests"
 	@echo "  make test-integration - Run integration tests"
-	@echo "  make test-e2e      - Run E2E tests (PostgreSQL + Kafka full pipeline)"
+	@echo "  make test-e2e      - Run E2E tests (PostgreSQL + CDC pipeline)"
 	@echo "  make test          - Run all tests with database setup"
 	@echo "  make dev           - Development workflow (format + test + build)"
 	@echo "  make fmt           - Format code"
